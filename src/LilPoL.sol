@@ -6,26 +6,32 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract LilPol {
     IERC20 public bgt;
 
+    //Cutting boards are where validators store their reward preferences
     struct CuttingBoard {
         uint64 startBlock;
         Weight[] weights;
     }
 
+    //Weights are the recievers of the validator rewards and the percentage at which they will recieve them from the
+    //total block reward
     struct Weight {
         address receiver;
         uint96 percentageNumerator;
     }
 
+    //The people building the blocks
     struct Validator {
         address operator;
         uint256 boost;
     }
 
+    //PoL is controlled by a governance address that calls admin functions
     address public governance;
 
-    // BeraChef
+    // Core BeraChef variables
     mapping(bytes => CuttingBoard) public activeCuttingBoards;
     mapping(bytes => CuttingBoard) public queuedCuttingBoards;
+    //These are the addresses of the protocol rewards vaults
     mapping(address => bool) public isFriendOfTheChef;
     CuttingBoard public defaultCuttingBoard;
     uint8 public maxNumWeightsPerCuttingBoard;
@@ -108,6 +114,14 @@ contract LilPol {
         return reward;
     }
 
+    function processRewards(bytes calldata valPubkey) external returns (uint256) {
+        uint256 reward = rewardRate;
+        Validator storage validator = validators[valPubkey];
+
+        reward = (reward + ())
+
+    }
+
 
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
     /*              DISTRIBUTOR FUNCTIONS                         */
@@ -147,7 +161,6 @@ contract LilPol {
     }
 
     function updateFriendOfTheChef(address friend, bool isFriend) external onlyGovernance {
-
         isFriendOfTheChef[friend] = isFriend;
     }
 
