@@ -23,14 +23,22 @@ contract LilPol {
 
     address public governance;
 
+    // BeraChef
     mapping(bytes => CuttingBoard) public activeCuttingBoards;
     mapping(bytes => CuttingBoard) public queuedCuttingBoards;
     mapping(address => bool) public isFriendOfTheChef;
-    mapping(bytes => Validator) public validators;
+    CuttingBoard public defaultCuttingBoard;
+    uint8 public maxNumWeightsPerCuttingBoard;
+    uint64 public cuttingBoardBlockDelay;
 
     CuttingBoard public defaultCuttingBoard;
     uint8 public maxNumWeightsPerCuttingBoard;
     uint64 public cuttingBoardBlockDelay;
+
+    // BlockRewardController
+    mapping(bytes => Validator) public validators;
+
+    // BlockRewardController
     uint256 public baseRate;
     uint256 public rewardRate;
     uint256 public minBoostedRewardRate;
@@ -101,8 +109,6 @@ contract LilPol {
     }
 
 
-
-
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
     /*              DISTRIBUTOR FUNCTIONS                         */
     /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
@@ -141,7 +147,7 @@ contract LilPol {
     }
 
     function updateFriendOfTheChef(address friend, bool isFriend) external onlyGovernance {
-        // Admin check here
+
         isFriendOfTheChef[friend] = isFriend;
     }
 
