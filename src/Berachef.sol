@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/";
-contract Berachef is OwnableUpgradeable {
+contract LilPol is OwnableUpgradeable {
 
     struct CuttingBoard {
         uint64 id;
@@ -64,5 +64,28 @@ contract Berachef is OwnableUpgradeable {
             i++;
         }
 
+    }
+            /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
+            /*                          BERACHEF                           */
+            /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
+    function activateQueuedCuttingBoard(bytes calldata valPubKey) external onlyOperator(valPubKey) {
+        require(block.number >= queuedCuttingBoards[valPubKey].startBlock, "activateQueuedCuttingBoard: not ready");
+
+        CuttingBoard storage qcb = queuedCuttingBoards[valPubKey];
+        activeCuttingBoards[valPubKey] = qcb;
+
+        delete queuedCuttingBoards[valPubKey];
+    }
+
+    function getActiveCuttingBoard(bytes calldata valPubKey) external view returns (CuttingBoard memory) {
+        return activeCuttingBoards[valPubKey];
+    }
+
+    function getQueuedCuttingBoard(bytes calldata valPubKey) external view returns (CuttingBoard memory) {
+        return queuedCuttingBoards[valPubKey];
+    }
+
+    function updateFriendsOfChef(address reciever, bool isFriend) external onlyOwner {
+        isFriendsOfChef[reciever] = isFriend;
     }
 }
