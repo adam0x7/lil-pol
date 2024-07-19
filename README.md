@@ -1,5 +1,5 @@
 # LilPOL: A Simplified Proof of Liquidity Implementation
-![Alt text](../img/lilpol.png)
+![Alt text](/img/lilpol.png)
 ## Overview
 
 LilPOL is a minimalist implementation of the Proof of Liquidity (POL) consensus mechanism, designed to demonstrate the core principles of POL in a simplified, educational format. This project consists of two main contracts: LilPOL and LilBGT, which together simulate the essential functions of a POL system.
